@@ -1,0 +1,6 @@
+{{- if eq .chezmoi.os "linux" }}
+Brewfile
+Brewfile.lock.json
+{{- end }}
+LICENSE.txt
+README.md
