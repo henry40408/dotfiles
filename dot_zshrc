@@ -379,17 +379,6 @@ reload() {
     exec /usr/bin/env zsh
 }
 
-restore() {
-    pushd "$HOME/.cfg" || return
-
-    # 1. quoting ls command leads unexpected behavior
-    # 2. do not prefix subdirectory with dash
-    # shellcheck disable=SC2046,SC2035
-    stow $(ls -d */)
-
-    popd || return
-}
-
 setup() {
     install-asdf
     install-asdf-plugins
