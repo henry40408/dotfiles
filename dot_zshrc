@@ -278,7 +278,7 @@ install-crates() {
     for c in "${crates[@]}"; do
         name="$(echo "$c" | awk -F: '{print $1}')"
         version="$(echo "$c" | awk -F: '{print $2}')"
-        cargo install --root "$crate_root" "$name" --version "$version"
+        cargo install --root "$crate_root" "$name" --version "$version" --locked
     done
 }
 
