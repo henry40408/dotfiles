@@ -186,6 +186,7 @@ crates=(
     git-delta:0.15.1
     gping:1.8.0
     hyperfine:1.16.1
+    jless:0.9.0
     license-generator:1.0.0
     lsd:0.23.1
     procs:0.14.0
