@@ -167,7 +167,7 @@ function() {
     # disable automatic notifications on a remote machine via SSH
     if [[ "x$SSH_CLIENT" = "x" ]]; then
         zsh_plugins+=(
-            plugins:MichaelAquilina/zsh-auto-notify:fb38802:auto-notify
+            # plugins:MichaelAquilina/zsh-auto-notify:fb38802:auto-notify
         )
     fi
 
@@ -190,6 +190,7 @@ crates=(
     license-generator:1.0.0
     lsd:0.23.1
     procs:0.14.0
+    spacer:0.1.8
     stylua:0.17.1
     tokei:12.1.2
     xsv:0.13.0
