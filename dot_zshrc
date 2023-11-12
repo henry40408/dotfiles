@@ -9,9 +9,12 @@ export -U PATH=/opt/homebrew/bin:$HOME/bin:$PATH:$crate_root/bin
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+# Set neovim (nvim) as the default text editor
+export EDITOR=nvim
+
 # commits
 ASDF_REF=v0.9.0
-ASDF_PLUGINS_REF=75e9a20b155f2cb825a248ddb7cc2d4ed7ca7162
+ASDF_PLUGINS_REF=5182559245564b7e2a0aca37323595d02d846be9
 OMZ_REF=b3999a4b156185b617a5608317497399f88dc8fe
 SPACEMACS_REF=41785538571625de094bb9e34769fc1eaedb6e73
 
