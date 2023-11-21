@@ -180,6 +180,7 @@ function() {
 }
 
 crates=(
+    atuin:17.0.1
     cargo-outdated:0.11.2
     cargo-watch:8.4.0
     cross:0.2.5
@@ -371,6 +372,7 @@ setup() {
 
 function() {
     # [[aliases]] https://remysharp.com/2018/08/23/cli-improved
+    (which atuin &> /dev/null) && eval "$(atuin init zsh)"
     (which bat &> /dev/null) && alias cat="bat"
     (which fzf &> /dev/null) && alias preview="fzf --preview 'bat --color \"always\" {}'"
     (which lsd &> /dev/null) && alias ls="lsd"
