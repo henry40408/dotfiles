@@ -181,6 +181,7 @@ function() {
 
 crates=(
     atuin:17.0.1
+    cargo-nextest:0.9.63
     cargo-outdated:0.11.2
     cargo-watch:8.4.0
     cross:0.2.5
