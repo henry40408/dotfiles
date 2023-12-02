@@ -1,10 +1,8 @@
 # shellcheck shell=bash
 
-crate_root=$HOME/.local
-
 # If you come from bash you might have to change your $PATH.
 # ref: https://unix.stackexchange.com/a/62581
-export -U PATH=/opt/homebrew/bin:$HOME/bin:$PATH:$crate_root/bin
+export -U PATH=/opt/homebrew/bin:$HOME/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -13,10 +11,7 @@ export ZSH=$HOME/.oh-my-zsh
 export EDITOR=nvim
 
 # commits
-ASDF_REF=v0.9.0
-ASDF_PLUGINS_REF=5182559245564b7e2a0aca37323595d02d846be9
 OMZ_REF=b3999a4b156185b617a5608317497399f88dc8fe
-SPACEMACS_REF=41785538571625de094bb9e34769fc1eaedb6e73
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -87,12 +82,10 @@ DISABLE_MAGIC_FUNCTIONS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    asdf
     aws
     command-not-found
     common-aliases
     direnv
-    docker-compose
     fzf
     gem
     git
@@ -102,15 +95,11 @@ plugins=(
     golang
     gpg-agent
     helm
-    kubectl
     pip
     python
     rails
     ruby
 )
-
-# pip plugin
-export PIP_REQUIRE_VIRTUALENV=1
 
 # tmux plugins
 #
@@ -179,27 +168,6 @@ function() {
     fi
 }
 
-crates=(
-    atuin:17.0.1
-    cargo-nextest:0.9.63
-    cargo-outdated:0.11.2
-    cargo-watch:8.4.0
-    cross:0.2.5
-    du-dust:0.8.5
-    git-delta:0.15.1
-    gping:1.8.0
-    hyperfine:1.16.1
-    jless:0.9.0
-    license-generator:1.0.0
-    lsd:0.23.1
-    procs:0.14.0
-    spacer:0.1.8
-    stylua:0.17.1
-    tokei:12.1.2
-    xsv:0.13.0
-    zoxide:0.9.0
-)
-
 # add external plugins to oh-my-zsh plugin list
 function() {
     local category
@@ -260,36 +228,6 @@ git-submodule-update() {
     pushd -q "$1" || return
     git submodule update
     popd -q || return
-}
-
-install-asdf() {
-    git-clone-checkout "https://github.com/asdf-vm/asdf.git" "$HOME/.asdf" "$ASDF_REF"
-}
-
-install-asdf-plugins() {
-    local asdf_plugins
-
-    asdf_plugins="$HOME/.asdf/plugins"
-
-    git-clone-checkout "https://github.com/henry40408/asdf-plugins.git" "$asdf_plugins" "$ASDF_PLUGINS_REF"
-    git-submodule-update "$asdf_plugins"
-}
-
-install-crates() {
-    local name
-    local version
-
-    for c in "${crates[@]}"; do
-        name="$(echo "$c" | awk -F: '{print $1}')"
-        version="$(echo "$c" | awk -F: '{print $2}')"
-        cargo install --root "$crate_root" "$name" --version "$version" --locked
-    done
-}
-
-install-poetry() {
-    unset PIP_REQUIRE_VIRTUALENV
-    pip install poetry==1.6.1
-    export PIP_REQUIRE_VIRTUALENV=1
 }
 
 install-plugins() {
@@ -365,8 +303,6 @@ reload() {
 }
 
 setup() {
-    install-asdf
-    install-asdf-plugins
     install-oh-my-zsh
     install-plugins
 }
@@ -380,6 +316,9 @@ function() {
     (which ping &> /dev/null) && alias ping="gping"
     (which procs &> /dev/null) && alias ps="procs"
     (which zoxide &> /dev/null) && eval "$(zoxide init zsh)"
+
+    [[ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]] && source "$HOME/.nix-profile/etc/profile.d/nix.sh"
+    (which devbox &> /dev/null) && eval "$(devbox global shellenv)"
 
     # [my] private configuration
     # shellcheck source=/dev/null
