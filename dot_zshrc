@@ -11,7 +11,7 @@ export ZSH=$HOME/.oh-my-zsh
 export EDITOR=nvim
 
 # commits
-OMZ_REF=b3999a4b156185b617a5608317497399f88dc8fe
+OMZ_REF=ba8777fc3013a3c682d8144586e16457cbe12586
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
