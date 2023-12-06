@@ -141,6 +141,26 @@
         }
       }
     },
+    "fzf@0.44.1": {
+      "last_modified": "2023-11-24T20:01:39Z",
+      "resolved": "github:NixOS/nixpkgs/0bd59c54ef06bc34eca01e37d689f5e46b3fe2f1#fzf",
+      "source": "devbox-search",
+      "version": "0.44.1",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/0rkyxa8l4yki1xs46a13qab901932swx-fzf-0.44.1"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/83vp3hayx0bcbfg2wrcb6xxrkfwkpckj-fzf-0.44.1"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/qz7qlv937dlkrbkbjy6v01safkga8l23-fzf-0.44.1"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/fm5jcg1w8czvcsyckw6n5mlx1dz4di0v-fzf-0.44.1"
+        }
+      }
+    },
     "gh@2.29.0": {
       "last_modified": "2023-05-14T19:13:12Z",
       "resolved": "github:NixOS/nixpkgs/3007746b3f5bfcb49e102b517bca891822a41b31#gh",
@@ -459,6 +479,26 @@
         },
         "x86_64-linux": {
           "store_path": "/nix/store/hxz2xnw3rv0frlq3ikp8f17fg11wglcg-tokei-12.1.2"
+        }
+      }
+    },
+    "wget@1.21.4": {
+      "last_modified": "2023-11-17T14:14:56Z",
+      "resolved": "github:NixOS/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c#wget",
+      "source": "devbox-search",
+      "version": "1.21.4",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/dqckzbl8mf0xm41ffpp1809jym6n6li8-wget-1.21.4"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/dny961za1a0fsxbm2x51kfard185pgga-wget-1.21.4"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/0xw70k650w2c1g4lrs8dmk3f81369f6d-wget-1.21.4"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/0mly66r51wxh0sfhanzfvm5m840n97sx-wget-1.21.4"
         }
       }
     },
