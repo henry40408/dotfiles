@@ -1,5 +1,9 @@
 # shellcheck shell=bash
 
+# enable nix and devbox
+[[ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]] && source "$HOME/.nix-profile/etc/profile.d/nix.sh"
+(type devbox &> /dev/null) && eval "$(devbox global shellenv)"
+
 # If you come from bash you might have to change your $PATH.
 # ref: https://unix.stackexchange.com/a/62581
 export -U PATH=/opt/homebrew/bin:$HOME/bin:$PATH
@@ -153,32 +157,24 @@ zsh_plugins=(
     themes:romkatv/powerlevel10k:v1.18.0
 )
 
-function() {
-    # disable automatic notifications on a remote machine via SSH
-    if [[ "x$SSH_CLIENT" = "x" ]]; then
-        zsh_plugins+=(
-            # plugins:MichaelAquilina/zsh-auto-notify:fb38802:auto-notify
-        )
-    fi
-
-    # platform-specific plugins
-    if [[ $OSTYPE == darwin* ]]; then
-        export HOMEBREW_NO_AUTO_UPDATE=1
-        plugins+=(brew)
-    fi
-}
+# platform-specific plugins
+if [[ $OSTYPE == darwin* ]]; then
+    export HOMEBREW_NO_AUTO_UPDATE=1
+    plugins+=(
+        brew
+    )
+    zsh_plugins+=(
+        plugins:MichaelAquilina/zsh-auto-notify:fb38802:auto-notify
+    )
+fi
 
 # add external plugins to oh-my-zsh plugin list
-function() {
-    local category
-    local basename
-    local alt_basename
-
+_load_external_zsh_plugins() {
+    local category basename alt_basename
     for p in "${zsh_plugins[@]}"; do
-        category="$(echo "$p" | awk -F: '{print $1}')"
+        IFS=: read -r category basename _ alt_basename <<< "$p"
         [[ "$category" != "plugins" ]] && continue
-        basename="$(echo "$p" | awk -F: '{print $2}' | awk -F/ '{print $2}')"
-        alt_basename="$(echo "$p" | awk -F: '{print $4}')"
+        basename="$(echo "$basename" | awk -F/ '{print $2}')"
         if [[ -z "$alt_basename" ]]; then
             plugins+=("$basename")
         else
@@ -186,10 +182,12 @@ function() {
         fi
     done
 }
+_load_external_zsh_plugins
 
 # Instant Prompt of powerlevel10k
+# shellcheck disable=SC2296
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    # shellcheck source=/dev/null
+    # shellcheck source=/dev/null disable=SC2296
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
@@ -202,8 +200,18 @@ source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 
+_git_clone_checkout() {
+    echo "==> clone $1 to $2"
+    [[ ! -d "$2" ]] && git clone --recursive "$1" "$2"
+
+    pushd -q "$2" || return
+    echo "==> checkout $3"
+    [[ -n "$3" ]] && git fetch origin && git checkout "$3"
+    popd -q || return
+}
+
 benchmark() {
-    if (which hyperfine > /dev/null); then
+    if (type hyperfine &> /dev/null) then
         /usr/bin/env hyperfine '/usr/bin/env zsh -i -c exit'
     else
         repeat 10 time /usr/bin/env zsh -i -c "exit"
@@ -214,85 +222,53 @@ decrypt() {
     eval "$(secrets decrypt environment)"
 }
 
-git-clone-checkout() {
-    echo "==> clone $1 to $2"
-    [[ ! -d "$2" ]] && git clone --recursive "$1" "$2"
-
-    pushd -q "$2" || return
-    echo "==> checkout $3"
-    [[ -n "$3" ]] && git fetch origin && git checkout "$3"
-    popd -q || return
-}
-
-git-submodule-update() {
-    pushd -q "$1" || return
-    git submodule update
-    popd -q || return
-}
-
 install-plugins() {
     install-zsh-plugins
     install-tmux-plugins
 }
 
 install-oh-my-zsh() {
-    git-clone-checkout "https://github.com/ohmyzsh/ohmyzsh" "$ZSH" "$OMZ_REF"
+    _git_clone_checkout "https://github.com/ohmyzsh/ohmyzsh" "$ZSH" "$OMZ_REF"
 }
 
 install-tmux-plugins() {
-    local plugins_dir
-    local repo
-    local commit
-    local basename
-    local dest
+    local plugins_dir repo commit basename dest
 
     plugins_dir="$HOME/.tmux/plugins"
-
     mkdir -p "$plugins_dir"
 
     pushd "$HOME/.tmux/plugins" || return
 
     for p in "${tmux_plugins[@]}"; do
-        repo="$(echo "$p" | awk -F: '{print $1}')"
-        commit="$(echo "$p" | awk -F: '{print $2}')"
-
-        basename="$(echo "$repo" | awk -F/ '{print $2}')"
+        IFS=: read -r repo commit <<< "$p"
+        IFS=/ read -r _ basename <<< "$repo"
         dest="$plugins_dir/$basename"
-
-        git-clone-checkout "https://github.com/$repo" "$dest" "$commit"
+        _git_clone_checkout "https://github.com/$repo" "$dest" "$commit"
     done
 
     popd -q || return
 }
 
 install-zsh-plugins() {
-    local category
-    local repo
-    local ref
-    local alt_basename
-    local basename
-    local dest
+    local category repo ref alt_basename basename dest
 
     [[ -z "$ZSH_CUSTOM" ]] && echo "\$ZSH_CUSTOM is not set. abort" && return
 
     pushd -q "$ZSH_CUSTOM" || return
 
     for p in "${zsh_plugins[@]}"; do
-        category="$(echo "$p" | awk -F: '{print $1}')"
-        repo="$(echo "$p" | awk -F: '{print $2}')"
-        ref="$(echo "$p" | awk -F: '{print $3}')"
-        alt_basename="$(echo "$p" | awk -F: '{print $4}')"
+        IFS=: read -r category repo ref alt_basename <<< "$p"
 
         # use alternative basename instead of basename if alternative basename is given
         if [[ -z "$alt_basename" ]]; then
-            basename="$(echo "$repo" | awk -F/ '{print $2}')"
+            IFS=/ read -r _ basename <<< "$repo"
         else
             basename="$alt_basename"
         fi
 
         dest="$category/$basename"
 
-        git-clone-checkout "https://github.com/$repo" "$dest" "$ref"
+        _git_clone_checkout "https://github.com/$repo" "$dest" "$ref"
     done
 
     popd -q || return
@@ -307,18 +283,15 @@ setup() {
     install-plugins
 }
 
-function() {
+_alias_commands() {
     # [[aliases]] https://remysharp.com/2018/08/23/cli-improved
-    (which atuin &> /dev/null) && eval "$(atuin init zsh)"
-    (which bat &> /dev/null) && alias cat="bat"
-    (which fzf &> /dev/null) && alias preview="fzf --preview 'bat --color \"always\" {}'"
-    (which lsd &> /dev/null) && alias ls="lsd"
-    (which ping &> /dev/null) && alias ping="gping"
-    (which procs &> /dev/null) && alias ps="procs"
-    (which zoxide &> /dev/null) && eval "$(zoxide init zsh)"
-
-    [[ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]] && source "$HOME/.nix-profile/etc/profile.d/nix.sh"
-    (which devbox &> /dev/null) && eval "$(devbox global shellenv)"
+    (type atuin &> /dev/null) && eval "$(atuin init zsh)"
+    (type bat &> /dev/null) && alias cat="bat"
+    (type fzf &> /dev/null) && alias preview="fzf --preview 'bat --color \"always\" {}'"
+    (type lsd &> /dev/null) && alias ls="lsd"
+    (type ping &> /dev/null) && alias ping="gping"
+    (type procs &> /dev/null) && alias ps="procs"
+    (type zoxide &> /dev/null) && eval "$(zoxide init zsh)"
 
     # [my] private configuration
     # shellcheck source=/dev/null
@@ -326,5 +299,6 @@ function() {
 
     true # prevent result of shorthand expression from being exit status
 }
+_alias_commands
 
 # vim: set ts=4 sw=4:
