@@ -101,6 +101,26 @@
         }
       }
     },
+    "direnv@2.33.0": {
+      "last_modified": "2023-12-06T11:19:33Z",
+      "resolved": "github:NixOS/nixpkgs/325eb628b89b9a8183256f62d017bfb499b19bd9#direnv",
+      "source": "devbox-search",
+      "version": "2.33.0",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/9gkvg5drbla9xgv3iv11rwy3dy5zxza7-direnv-2.33.0"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/hi4l5wc9qzr5vxzn8jkglqgkr91m0pld-direnv-2.33.0"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/yk7rjy6k3hvx00jvx3dk9bhbzs6v55lp-direnv-2.33.0"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/ckfcj2n93ady092abbjk0f7yggak4w3x-direnv-2.33.0"
+        }
+      }
+    },
     "du-dust@0.8.5": {
       "last_modified": "2023-05-01T16:53:22Z",
       "resolved": "github:NixOS/nixpkgs/8670e496ffd093b60e74e7fa53526aa5920d09eb#du-dust",
@@ -118,6 +138,26 @@
         },
         "x86_64-linux": {
           "store_path": "/nix/store/ixpzwdnk4gjgc3qs5z42q0640wnfypby-du-dust-0.8.5"
+        }
+      }
+    },
+    "entr@5.5": {
+      "last_modified": "2023-11-27T17:54:48Z",
+      "resolved": "github:NixOS/nixpkgs/491af1f1cc28df11dfbff049da4134c37d58aee9#entr",
+      "source": "devbox-search",
+      "version": "5.5",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/x4qylqklkvcdcqrzgsmvwq9y4hpjslgk-entr-5.5"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/1vln5fkki41rv93f374akxsh4pihi5wg-entr-5.5"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/rqarkn836hyhf9s2kk0z97lwk2gkba32-entr-5.5"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/s9rx0a4h97hf2lmr2h0glyb50bns9cx2-entr-5.5"
         }
       }
     },
@@ -341,6 +381,27 @@
         }
       }
     },
+    "poetry@1.6.1": {
+      "last_modified": "2023-11-17T14:14:56Z",
+      "plugin_version": "0.0.3",
+      "resolved": "github:NixOS/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c#poetry",
+      "source": "devbox-search",
+      "version": "1.6.1",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/7i5h0pfkg3qv0b97dkhgq53i2bb2s4sw-python3.11-poetry-1.6.1"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/12zqkx7h5gwi485np0fcg4n8lafxql7w-python3.11-poetry-1.6.1"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/2svxaq779cpmrsv7l487rb1q5lqdbg0j-python3.11-poetry-1.6.1"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/r4avn3bnyfgmgpb30aj6skb4iglg9i9d-python3.11-poetry-1.6.1"
+        }
+      }
+    },
     "procs@0.14.0": {
       "last_modified": "2023-10-25T20:49:13Z",
       "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#procs",
@@ -358,6 +419,27 @@
         },
         "x86_64-linux": {
           "store_path": "/nix/store/krbrv4wc5k6yl1x4295wx45mz0c87nzl-procs-0.14.0"
+        }
+      }
+    },
+    "python@3.10.13": {
+      "last_modified": "2023-11-17T14:14:56Z",
+      "plugin_version": "0.0.1",
+      "resolved": "github:NixOS/nixpkgs/a71323f68d4377d12c04a5410e214495ec598d4c#python310",
+      "source": "devbox-search",
+      "version": "3.10.13",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/p56fpsphgx3lal9pqyyj0ciz4all7hwv-python3-3.10.13"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/8w9153kg06wz7kb0lsdg2hxv8ihq3jxd-python3-3.10.13"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/c7s2h40q4wqxfxwzbj5g9c3126wz6ryg-python3-3.10.13"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/50kabpj0s79040a42b7jj2dxn85wmbfd-python3-3.10.13"
         }
       }
     },

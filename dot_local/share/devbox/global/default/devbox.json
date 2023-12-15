@@ -26,6 +26,11 @@
     "xsv@0.13.0",
     "zoxide@0.9.0",
     "wget@1.21.4",
-    "fzf@0.44.1"
+    "fzf@0.44.1",
+    "direnv@2.33.0",
+    "entr@5.5",
+    "python@3.10.13",
+    "github:NixOS/nixpkgs/nixos-23.05#stdenv.cc.cc.lib",
+    "poetry@1.6.1"
   ]
 }
